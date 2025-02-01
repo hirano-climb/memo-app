@@ -236,7 +236,7 @@ app.post('/signup', (req, res, next) => {
   const errors=[];
   
    db.query('SELECT * FROM users WHERE email = ? OR username = ?', [email, username], (err, results) => {
-    if (results.length > 0) {
+    if (!results || results.length === 0) {
       results.forEach(user => {
         if (user.username === username) {
           errors.push('このユーザー名は既に使用されています');
