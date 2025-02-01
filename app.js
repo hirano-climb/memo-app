@@ -86,25 +86,25 @@ app.get('/login', (req, res) => {
 app.post('/login', (req, res) => {
   const email = req.body.email;
   db.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
-    if (results.length > 0) {
-      const plain = req.body.password;
-      const hash = results[0].password;
-      bcrypt.compare(plain, hash , (err,isEqual )=>{
-        if(isEqual){
-          req.session.userId = results[0].id;
-          req.session.username = results[0].username;
-          req.session.category = results[0].category;
-          req.session.message = { type: 'success', text: 'ログイン成功しました！' }; 
-          res.redirect('/index');
-        } else{
-          req.session.loginMessage = { type: 'error', text: 'メールアドレスまたはパスワードが間違っています' };
-          res.redirect('/login');
-        }
-      });
-    } else {
+    if (!results || results.length === 0) {
       req.session.loginMessage = { type: 'error', text: 'メールアドレスまたはパスワードが間違っています' };
-      res.redirect('/login');
-    }
+      return res.redirect('/login');
+    } 
+    
+    const plain = req.body.password;
+    const hash = results[0].password;
+    bcrypt.compare(plain, hash , (err,isEqual )=>{
+      if(isEqual){
+        req.session.userId = results[0].id;
+        req.session.username = results[0].username;
+        req.session.category = results[0].category;
+        req.session.message = { type: 'success', text: 'ログイン成功しました！' }; 
+        res.redirect('/index');
+      } else{
+        req.session.loginMessage = { type: 'error', text: 'メールアドレスまたはパスワードが間違っています' };
+        res.redirect('/login');
+      }
+    });
   });
 });
 
@@ -255,14 +255,6 @@ app.post('/signup', (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   bcrypt.hash(password, 10, (err, hash) => {
-    if (err) {
-      console.error('パスワードのハッシュ化に失敗しました:', err);
-      return res.status(500).send('パスワードのハッシュ化に失敗しました');
-    }
-    if (err) {
-      console.error('Error inserting into database:', err);
-      return res.status(500).send('Database error');
-    }
       db.query('INSERT INTO users (username, email, password, category) VALUES (?, ?, ?, ?)',[username, email, hash, 'limited'], (err, results) => {
       req.session.userId = results.insertId;
       req.session.username = username;
