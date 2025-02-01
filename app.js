@@ -12,10 +12,10 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || "memo-app-server.mysql.database.azure.com",
-  user: process.env.DB_USER || "myadmin",
-  password: process.env.DB_PASSWORD || "nVpTcAKd98mZuFK",
-  database: process.env.DB_NAME || "memo-app-server",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD ,
+  database: process.env.DB_NAME ,
   ssl: { rejectUnauthorized: false } // Azure用SSL設定
 });
 
