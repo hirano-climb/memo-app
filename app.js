@@ -1,22 +1,23 @@
-require('dotenv').config();
-
 const express = require("express");
 const mysql = require("mysql2");
 const bodyParser = require("body-parser");
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const app = express();
+require('dotenv').config();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD ,
-  database: process.env.DB_NAME ,
-  ssl: { rejectUnauthorized: false } // Azure用SSL設定
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
 app.use(
@@ -382,7 +383,7 @@ app.post('/user_update/:id', (req, res, next) => {
 
 
 // サーバー起動
-const PORT = process.env.PORT || 3306;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`サーバーが http://localhost:${PORT} で起動しました`);
 });
