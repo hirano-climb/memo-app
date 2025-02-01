@@ -256,7 +256,11 @@ app.post('/signup', (req, res, next) => {
   const password = req.body.password;
   bcrypt.hash(password, 10, (err, hash) => {
       db.query('INSERT INTO users (username, email, password, category) VALUES (?, ?, ?, ?)',[username, email, hash, 'limited'], (err, results) => {
-      req.session.userId = results.insertId;
+        if (err) {
+          console.error('Database insert error:', err);
+          return res.status(500).send('データベースエラー');
+        }
+        req.session.userId = results.insertId;
       req.session.username = username;
       req.session.message = { type: 'success', text: 'ユーザー登録 成功しました！' }; 
       res.redirect('/user_index');
