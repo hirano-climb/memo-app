@@ -389,7 +389,7 @@ app.post('/user_update/:id', (req, res, next) => {
 
 
 // サーバー起動
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`サーバーが http://localhost:${PORT} で起動しました`);
 });
