@@ -1,0 +1,24 @@
+<header>
+    <div class="header-nav">
+        <ul>
+            <li><a class="header-logo" href="/index">share memo</a></li>
+            <li><p>ユーザー : <%=locals.username  %></p></li>
+            <li><a class="link" href="/index" class="index-button">メモ 一覧</a></li>
+            <li><a class="link" href="/user_index">ユーザー 一覧</a></li>
+
+            <% if (locals.isLoggedIn) {%>
+            <li><a class="link" href="/new">メモ登録</a></li>
+            <li><a class="link" href="/logout">ログアウト</a></li>
+            <% }else{%>
+            <li><a class="link" href="/signup">ユーザー 登録</a></li>
+            <li><a class="link" href="/login">ログイン</a></li>
+            <% } %>
+        </ul>
+    </div>
+
+    <div class="menubutton">
+        <i></i>
+        <i></i>
+        <i></i>
+    </div>
+</header>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>share memo</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="index-body">
+    <%- include('header');%>
+    
+    <div class="flash-message">
+      <% if (errors.length > 0) { %>
+        <ul class="errors">
+          <% errors.forEach(error =>{ %>
+            <li><%= error %></li>
+          <% }); %>
+        </ul>
+      <% } %>
+    </div>
+    <div class="sign">
+      <div class="panel">
+        <h2>ユーザー登録</h2>
+        <form action='/signup' method='post'>
+          <p>ユーザー名</p>
+          <input type="text" name='username'>
+          <p>メールアドレス</p>
+          <input type="text" name='email'>
+          <p>パスワード</p>
+          <input type="password" name='password'>
+          <input type="submit" value="登録する">
+          <a href="/index">メモ一覧へ戻る</a>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/main.js"></script>
+
+</body>
+</html>

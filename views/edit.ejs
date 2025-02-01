@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>share memo</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="index-body">
+    <%- include('header');%>
+
+    <div class="flash-message">
+      <% if (errors.length > 0) { %>
+        <ul class="errors">
+          <% errors.forEach(error =>{ %>
+          <li><%= error %></li>
+          <% }); %>
+        </ul>
+      <% } %>
+    </div>
+
+    <div class="memo">
+      <div class="panel">
+        <form action="/update/<%= memo.id %>" method="post">
+          <h2>メモ更新</h2>
+          <p>タイトル</p>
+          <input type="text" name="title" value="<%= memo.title %>">
+          <p>内容</p>
+          <textarea name="content"><%= memo.content %></textarea>
+          <p>区分</p>
+          <select name="type">
+            <option value="">選択してください</option>
+            <option value="趣味" <%= memo.type === "趣味" ? "selected" : "" %>>趣味</option>
+            <option value="料理" <%= memo.type === "料理" ? "selected" : "" %>>料理</option>
+            <option value="仕事" <%= memo.type === "仕事" ? "selected" : "" %>>仕事</option>
+            <option value="家族" <%= memo.type === "家族" ? "selected" : "" %>>家族</option>
+            <option value="雑学" <%= memo.type === "雑学" ? "selected" : "" %>>雑学</option>
+            <option value="その他" <%= memo.type === "その他" ? "selected" : "" %>>その他</option>
+          </select>
+          <input type="submit" value="保存">
+          <a href="/index">メモ一覧へ戻る</a>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/main.js"></script>
+
+</body>
+</html>

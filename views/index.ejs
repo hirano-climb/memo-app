@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>share memo</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="index-body">
+    <%- include('header');%>
+
+      <div class="flash-message">
+        <% if (message) { %>
+          <div class="success-message <%= message.type %>">
+              <%= message.text %>
+          </div>
+        <% } %>
+      </div>
+      
+      <div class="index-title">
+        <h1>メモ 一覧</h1>
+        <div class="search">
+          <form ="GET" action="/index">
+            <input class="search-input" type="text" name="keyword" placeholder="キーワードを検索" value="<%= keyword || '' %>">
+            <button class="search-btn" type="submit">検索</button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="index-detail">
+        <table>
+          <thead>
+            <tr>
+              <th>タイトル</th>
+              <th>区分</th>
+              <th>投稿者</th>
+              <th>投稿日時</th>
+              <% if (isLoggedIn) { %>
+                <th>編集</th>
+                <th>削除</th>
+              <% } %>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (memos && memos.length === 0) { %>
+              <tr>
+                <td colspan="6">検索結果はありませんでした。</td>
+              </tr>
+            <% } else if (memos) { %>
+              <% memos.forEach((memo) => { %>
+                <tr>
+                  <td><a class="link-article" href="/article/<%= memo.id %>"><%= memo.title %></a></td>
+                  <td><%= memo.type %></td>
+                  <td><%= memo.username || "削除済みユーザー" %></td>
+                  <% const date = new Date(memo.created_at);
+                    const formatDate = date.toLocaleDateString('ja-JP', {
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      hour12: false
+                    });%>
+                  <td><%= formatDate %></td>
+                  <% if (isLoggedIn) { %>
+                    <% if (userCategory === 'admin' || Number(memo.user_id) === Number(loggedInUserId)) { %>
+                      <td><a class="editbtn" href="/edit/<%= memo.id %>">編集</a></td>
+                      <td><button class="deletebtn" onclick="showModal('<%= memo.id %>')">削除</button></td>
+                      <% } else { %>
+                      <td>-</td>
+                      <td>-</td>
+                    <% } %>
+                  <% } %>
+                </tr>
+              <% }); %>
+            <% } %>
+            
+          </tbody>       
+        </table>
+      </div>
+  </div>
+
+  <div id="confirmModal">
+    <div class="modal-detail">
+      <p>本当に削除しますか？</p>
+      <form id="deleteForm" method="POST">
+        <ul>
+          <li><button class="cancelbtn" type="button" onclick="closeModal()">キャンセル</button></li>
+          <li><button class="deletebtn" type="submit">削除</button></li>
+        </ul>
+      </form>
+    </div>
+  </div>
+
+  <script src="/main.js"></script>
+
+</body>
+</html>

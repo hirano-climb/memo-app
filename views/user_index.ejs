@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>share memo</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="index-body">
+    <%- include('header');%>
+
+    <div class="flash-message">
+      <% if (message) { %>
+        <div class="success-message <%= message.type %>">
+            <%= message.text %>
+        </div>
+      <% } %>
+    </div>
+
+    <div class="index-title">
+      <h1>ユーザ一覧</h1>
+    </div>
+
+    <div class="user index-detail">
+      <table>
+        <thead>
+          <tr>
+            <th>ユーザー名</th>
+            <% if (isLoggedIn) { %>
+              <th>アドレス</th>
+              <th>編集</th>
+              <th>削除</th>
+            <% } %>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach((user) => { %>
+            <tr>
+              <td><%= user.username %></td>
+              <% if (isLoggedIn) { %>
+                <% if (userCategory === 'admin' || Number(user.id) === Number(loggedInUserId)) { %>
+                <td><%= user.email %></td>
+                <td><a class="editbtn" href="/user_edit/<%= user.id %>">編集</a></td>
+                <td><button class="deletebtn" onclick="usershowModal('<%= user.id %>')">削除</button></td>
+                <% } else { %>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <% } %>
+              <% } %>
+            </tr>
+          <% }); %>
+        </tbody>       
+      </table>    
+    </div>
+  </div>
+
+  <div id="confirmModal">
+    <div class="modal-detail">
+      <p>本当に削除しますか？</p>
+      <form id="user-deleteForm" method="POST">
+        <ul>
+          <li><button class="cancelbtn" type="button" onclick="usercloseModal()">キャンセル</button></li>
+          <li><button class="deletebtn" type="submit">削除</button></li>
+        </ul>
+      </form>
+    </div>
+  </div>
+  </div>
+
+<script src="/main.js"></script>
+ 
+</body>
+</html>

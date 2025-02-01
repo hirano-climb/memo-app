@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>share memo</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="index-body">
+    <%- include('header');%>
+  </div>
+
+  <main>
+    <div class="article">
+        <h2><%= article.title %></h2>
+        <% if (locals.isLoggedIn) { %>
+          <div class="article-content">
+            <p><%= article.content %></p>
+          </div>
+        <% } else { %>
+          <div class="article-login">
+            <p>今すぐログインしよう！</p>
+            <p>続きはログインすると読むことができます</p>
+            <a class="btn" href="/login">ログイン</a>
+          </div>
+        <% } %>
+    </div>
+    <a class="index-link" href="/index">メモ一覧へ戻る</a>
+  </main>
+  
+  <script src="/main.js"></script>
+
+</body>
+</html>
