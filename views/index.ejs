@@ -43,11 +43,7 @@
             </tr>
           </thead>
           <tbody>
-            <% if (memos && memos.length === 0) { %>
-              <tr>
-                <td colspan="6">検索結果はありませんでした。</td>
-              </tr>
-            <% } else if (memos) { %>
+            <% if (memos) { %>
               <% memos.forEach((memo) => { %>
                 <tr>
                   <td><a class="link-article" href="/article/<%= memo.id %>"><%= memo.title %></a></td>
@@ -75,9 +71,11 @@
                 </tr>
               <% }); %>
             <% } %>
-            
-          </tbody>       
+          </tbody> 
         </table>
+        <% if (memos && memos.length === 0) { %>
+          <p class="list-none">検索結果はありませんでした</p>
+        <% } %>
       </div>
   </div>
 

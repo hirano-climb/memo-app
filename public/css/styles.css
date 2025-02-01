@@ -279,6 +279,11 @@ header{
   background-color: red;
   transition: .3s;
 }
+.index-detail .list-none{
+  margin-top: 50px;
+  text-align: center;
+  font-size: 1.2rem;
+}
 
 #confirmModal {
   display: none; 

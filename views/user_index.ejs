@@ -52,7 +52,10 @@
             </tr>
           <% }); %>
         </tbody>       
-      </table>    
+      </table>
+      <% if (users && users.length === 0) { %>
+        <p class="list-none">検索結果はありませんでした</p>
+      <% } %>  
     </div>
   </div>
 
