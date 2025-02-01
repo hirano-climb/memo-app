@@ -259,6 +259,10 @@ app.post('/signup', (req, res, next) => {
       console.error('パスワードのハッシュ化に失敗しました:', err);
       return res.status(500).send('パスワードのハッシュ化に失敗しました');
     }
+    if (err) {
+      console.error('Error inserting into database:', err);
+      return res.status(500).send('Database error');
+    }
       db.query('INSERT INTO users (username, email, password, category) VALUES (?, ?, ?, ?)',[username, email, hash, 'limited'], (err, results) => {
       req.session.userId = results.insertId;
       req.session.username = username;
