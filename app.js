@@ -221,6 +221,9 @@ app.post('/signup', (req, res, next) => {
   }else if (password.length < 8) {
     errors.push('パスワードは8文字以上にしてください');
   }
+  else if (!/(?=.*\d)/.test(password)) {
+    errors.push('パスワードには数字を含める必要があります');
+  }
   if (errors.length > 0) {
     res.render('signup.ejs', { errors: errors });
   } else {
@@ -252,7 +255,11 @@ app.post('/signup', (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   bcrypt.hash(password, 10, (err, hash) => {
-    db.query('INSERT INTO users (username, email, password, category) VALUES (?, ?, ?, ?)',[username, email, hash, 'limited'], (err, results) => {
+    if (err) {
+      console.error('パスワードのハッシュ化に失敗しました:', err);
+      return res.status(500).send('パスワードのハッシュ化に失敗しました');
+    }
+      db.query('INSERT INTO users (username, email, password, category) VALUES (?, ?, ?, ?)',[username, email, hash, 'limited'], (err, results) => {
       req.session.userId = results.insertId;
       req.session.username = username;
       req.session.message = { type: 'success', text: 'ユーザー登録 成功しました！' }; 
@@ -314,6 +321,9 @@ app.post('/user_update/:id', (req, res, next) => {
     errors.push('パスワードが空です');
   }else if (password.length < 8) {
     errors.push('パスワードは8文字以上にしてください');
+  }
+  else if (!/(?=.*\d)/.test(password)) {
+    errors.push('パスワードには数字を含める必要があります');
   }
   if (errors.length > 0) {
     db.query('SELECT * FROM users WHERE id = ?', [id], (err, results) => {
