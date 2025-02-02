@@ -5,26 +5,14 @@ const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const app = express();
 
-
-console.log("Loaded ENV:", process.env); // すべての環境変数を確認
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
-
-
-console.log("DB_HOST:", process.env.MYSQLHOST);
-console.log("DB_PORT:", process.env.MYSQLPORT);
-console.log("DB_USER:", process.env.MYSQLUSER);
-console.log("DB_PASSWORD:", process.env.MYSQLPASSWORD);
-console.log("DB_NAME:", process.env.MYSQLDATABASE);
+console.log("DB_HOST:", process.env.MYSQL_URL);
 
 const db = mysql.createPool({
-  host: process.env.MYSQLHOST,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE,
+  uri: process.env.MYSQL_URL,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
