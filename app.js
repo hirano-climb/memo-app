@@ -11,13 +11,14 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 
-const url = new URL(process.env.DB_URL);
-
-const db = mysql.createConnection({
-  host: url.hostname,
-  user: url.username,
-  password: url.password,
-  database: url.pathname.substring(1),
+const db = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
 app.use(
