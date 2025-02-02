@@ -4,8 +4,13 @@ const bodyParser = require("body-parser");
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const app = express();
-require('dotenv').config();
-console.log(process.env); 
+
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({ path: path.resolve(__dirname, '.env') });
+
+console.log("Loaded ENV:", process.env); // すべての環境変数を確認
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
