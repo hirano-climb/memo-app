@@ -4,15 +4,18 @@ const bodyParser = require("body-parser");
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const app = express();
+require('dotenv').config();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
-console.log("DB_HOST:", process.env.MYSQL_URL);
 
 const db = mysql.createPool({
-  uri: process.env.MYSQL_URL,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
@@ -410,7 +413,7 @@ app.post('/user_update/:id', (req, res, next) => {
 
 
 // サーバー起動
-const PORT = process.env.MYSQLPORT || 8080;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`サーバーが http://localhost:${PORT} で起動しました`);
 });
