@@ -225,10 +225,9 @@ app.post('/signup', (req, res, next) => {
     errors.push('パスワードには数字を含める必要があります');
   }
   if (errors.length > 0) {
-    res.render('signup.ejs', { errors: errors });
-  } else {
-    next();
+    return res.render('signup.ejs', { errors: errors });
   }
+  next();
 },
 (req, res, next) => {
   const email = req.body.email;
@@ -236,7 +235,14 @@ app.post('/signup', (req, res, next) => {
   const errors=[];
   
    db.query('SELECT * FROM users WHERE email = ? OR username = ?', [email, username], (err, results) => {
-    if (!results || results.length === 0) {
+    
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).send('データベースエラーが発生しました');
+    }
+    console.log('User search results:', results);
+    
+    if (results.length > 0) {
       results.forEach(user => {
         if (user.username === username) {
           errors.push('このユーザー名は既に使用されています');
@@ -255,15 +261,19 @@ app.post('/signup', (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   bcrypt.hash(password, 10, (err, hash) => {
+      if (err) {
+        console.error('Bcrypt error:', err);
+        return res.status(500).send('パスワードの暗号化中にエラーが発生しました');
+      }
       db.query('INSERT INTO users (username, email, password, category) VALUES (?, ?, ?, ?)',[username, email, hash, 'limited'], (err, results) => {
-        if (err) {
-          console.error('Database insert error:', err);
-          return res.status(500).send('データベースエラー');
-        }
-        req.session.userId = results.insertId;
+      if (err) {
+        console.error('Database insert error:', err);
+        return res.status(500).send('データベースエラー');
+      }
+      req.session.userId = results.insertId;
       req.session.username = username;
       req.session.message = { type: 'success', text: 'ユーザー登録 成功しました！' }; 
-      res.redirect('/user_index');
+      return res.redirect('/user_index');
     });
   });
 });
