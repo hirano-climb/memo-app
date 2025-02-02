@@ -21,6 +21,15 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
+db.getConnection((err, connection) => {
+  if (err) {
+    console.error("MySQL Connection Error: ", err);
+  } else {
+    console.log("Connected to MySQL successfully!");
+    connection.release();
+  }
+});
+
 app.use(
   session({
     secret: 'my_secret_key',
