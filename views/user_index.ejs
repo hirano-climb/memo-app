@@ -41,10 +41,8 @@
               <% if (isLoggedIn) { %>
                 <% if (userCategory === 'admin' || Number(user.id) === Number(loggedInUserId)) { %>
                 <td><%= user.email %></td>
-                <td><a class="editbtn" href="/user_edit/<%= user.id %>">編集</a></td>
                 <td><button class="deletebtn" onclick="usershowModal('<%= user.id %>')">削除</button></td>
                 <% } else { %>
-                <td>-</td>
                 <td>-</td>
                 <td>-</td>
                 <% } %>
