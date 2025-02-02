@@ -5,6 +5,7 @@ const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const app = express();
 require('dotenv').config();
+console.log(process.env); 
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
