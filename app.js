@@ -5,10 +5,6 @@ const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const app = express();
 
-import dotenv from 'dotenv';
-import path from 'path';
-
-dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 console.log("Loaded ENV:", process.env); // すべての環境変数を確認
 
