@@ -12,17 +12,17 @@ app.set("view engine", "ejs");
 
 
 
-console.log("DB_HOST:", process.env.DB_HOST);
-console.log("DB_PORT:", process.env.DB_PORT);
-console.log("DB_USER:", process.env.DB_USER);
-console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
-console.log("DB_NAME:", process.env.DB_NAME);
+console.log("DB_HOST:", process.env.MYSQLHOST);
+console.log("DB_PORT:", process.env.MYSQLPORT);
+console.log("DB_USER:", process.env.MYSQLUSER);
+console.log("DB_PASSWORD:", process.env.MYSQLPASSWORD);
+console.log("DB_NAME:", process.env.MYSQLDATABASE);
 
 const db = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
@@ -420,7 +420,7 @@ app.post('/user_update/:id', (req, res, next) => {
 
 
 // サーバー起動
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.MYSQLPORT || 8080;
 app.listen(PORT, () => {
   console.log(`サーバーが http://localhost:${PORT} で起動しました`);
 });
