@@ -10,10 +10,11 @@
 ルーティングやCRUD、デプロイの練習で作成したアプリなので、不足や不安定な箇所が多々あると思いますが、今後さらに学習を進めていく中で、高度なWEB開発が行えるスキルを身につけていきたいです。
 <br>
 # 環境
-"bcryptjs": "^2.4.3",<br>
-"body-parser": "^1.20.3",<br>
-"dotenv": "^16.4.7",<br>
-"ejs": "^3.1.10",<br>
-"express": "^4.21.2",<br>
-"express-session": "^1.18.1",<br>
-"mysql2": "^3.12.0"
+"nodejs": "22.13.0",<br>
+"bcryptjs": "2.4.3",<br>
+"body-parser": "1.20.3",<br>
+"dotenv": "16.4.7",<br>
+"ejs": "3.1.10",<br>
+"express": "4.21.2",<br>
+"express-session": "1.18.1",<br>
+"mysql2": "3.12.0"
